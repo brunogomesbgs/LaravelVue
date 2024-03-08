@@ -1,2 +1,2 @@
-# LaravelVue
-Containerized reposity with: PHP 8, Laravel 10, MySql 8 and Vue 3
+# LaravelVueTest
+Test using Laravel and VueJs 3

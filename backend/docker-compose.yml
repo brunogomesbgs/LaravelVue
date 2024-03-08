@@ -1,0 +1,87 @@
+version: '3'
+services:
+
+  #PHP Service
+  back:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel_vue/php
+    container_name: back
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: back
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  front:
+    stdin_open: true
+    container_name: front
+    build:
+      context: ../front
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - ../front:/var/www/html/
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+        - back
+        - front
+    networks:
+      - app-network
+
+  #MySQL Service
+  db:
+    image: mysql:latest
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: mysql_local
+      MYSQL_ROOT_PASSWORD: bruno
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+      DB_HOST: host.docker.internal
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    depends_on:
+        - back
+        - front
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local

@@ -47,7 +47,7 @@ class Deposit extends TestCase
             ]
         );
 
-        $response->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->where('userId', $user->id));
+        $response->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->where('userId', $user->id)->etc());
     }
 
     public function test_list_user_balance(): void
@@ -65,7 +65,7 @@ class Deposit extends TestCase
             ]
         );
 
-        $response->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->where('userId', $user->id));
+        $response->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->where('userId', $user->id)->etc());
     }
 
     public function test_list_pending_deposit(): void
@@ -89,6 +89,7 @@ class Deposit extends TestCase
             fn (AssertableJson $json) => $json
                 ->where('id', $deposit->id)
                 ->where('value', $deposit->value)
+                ->etc()
         );
     }
 

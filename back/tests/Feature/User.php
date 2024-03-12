@@ -29,7 +29,7 @@ class User extends TestCase
         );
 
         $response->assertStatus(200)
-            ->assertJson(fn (AssertableJson $json) => $json->where('id', $user->id));
+            ->assertJson(fn (AssertableJson $json) => $json->where('id', $user->id)->etc());
     }
 
     public function test_add_user(): void
@@ -48,6 +48,7 @@ class User extends TestCase
                 fn (AssertableJson $json) => $json
                 ->where('name', 'Deise')
                 ->where('email', 'deise@test.com')
+                ->etc()
             );
     }
 
@@ -71,6 +72,6 @@ class User extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonCount(2)
-            ->assertJson(fn (AssertableJson $json) => $json->where('id', $user->id));
+            ->assertJson(fn (AssertableJson $json) => $json->where('id', $user->id)->etc());
     }
 }

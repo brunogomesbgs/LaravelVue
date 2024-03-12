@@ -3,22 +3,20 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
+use App\Models\User as Users;
+use App\Models\Deposit as Deposits;
 
-class Deposit extends TestCase
+class DepositTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      */
     public function test_make_deposit(): void
     {
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Deise10',
-            'password' => 'deiserocks',
-            'email' => 'deise10@test.com'
-        ]);
+        $user = Users::factory()->make();
 
         $response = $this->postJson(
             '/api/deposits/makeDeposit',
@@ -33,11 +31,7 @@ class Deposit extends TestCase
 
     public function test_check_user_balance(): void
     {
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Deise11',
-            'password' => 'deiserocks',
-            'email' => 'deise11@test.com'
-        ]);
+        $user = Users::factory()->make();
 
         $response = $this->postJson(
             '/api/deposits/makeDeposit',
@@ -47,16 +41,17 @@ class Deposit extends TestCase
             ]
         );
 
-        $response->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->where('userId', $user->id)->etc());
+        $response->assertStatus(200)
+            ->assertJson(
+                fn (AssertableJson $json) => $json
+                    ->where('userId', $user->id)
+                    ->etc()
+            );
     }
 
     public function test_list_user_balance(): void
     {
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Deise12',
-            'password' => 'deiserocks',
-            'email' => 'deise12@test.com'
-        ]);
+        $user = Users::factory()->make();
 
         $response = $this->getJson(
             '/api/deposits/listUserBalance',
@@ -65,18 +60,19 @@ class Deposit extends TestCase
             ]
         );
 
-        $response->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->where('userId', $user->id)->etc());
+        $response->assertStatus(200)
+            ->assertJson(
+                fn (AssertableJson $json) => $json
+                    ->where('userId', $user->id)
+                    ->etc()
+            );
     }
 
     public function test_list_pending_deposit(): void
     {
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Deise12',
-            'password' => 'deiserocks',
-            'email' => 'deise12@test.com'
-        ]);
+        $user = Users::factory()->make();
 
-        $deposit = \App\Models\Deposit::factory()->create([
+        $deposit = Deposits::factory()->make([
             'userId' => $user->id,
             'value' => 10
         ]);
@@ -95,13 +91,9 @@ class Deposit extends TestCase
 
     public function test_evaluate_deposit(): void
     {
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Deise14',
-            'password' => 'deiserocks',
-            'email' => 'deise14@test.com',
-        ]);
+        $user = Users::factory()->make();
 
-        $deposit = \App\Models\Deposit::factory()->create([
+        Deposits::factory()->make([
             'userId' => $user->id,
             'value' => 10
         ]);

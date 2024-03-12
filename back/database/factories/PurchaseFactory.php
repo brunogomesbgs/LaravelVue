@@ -20,7 +20,7 @@ class PurchaseFactory extends Factory
         return [
             'user_id' => User::factory()->create(),
             'value' => 10,
-            'description' => 'purchase'
+            'description' => fake()->name()
         ];
     }
 }

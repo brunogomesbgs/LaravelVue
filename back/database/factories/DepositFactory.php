@@ -19,9 +19,9 @@ class DepositFactory extends Factory
     {
         return [
             'user_id' => User::factory()->create(),
-            'transit_deposit' => 10,
-            'current_deposit'=> 0,
-            'status' => 0
+            'transit_deposit' => 0,
+            'current_deposit'=> 10,
+            'status' => 1
         ];
     }
 }

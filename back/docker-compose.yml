@@ -60,7 +60,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_HOST: "%"
-      MYSQL_DATABASE: mysql_local
+      MYSQL_DATABASE: mysql_local, mysql_local_test
       MYSQL_ROOT_PASSWORD: bruno
       MYSQL_USER: laravel
       MYSQL_PASSWORD: laravel

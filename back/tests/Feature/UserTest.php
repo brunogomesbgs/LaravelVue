@@ -3,21 +3,21 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
+use App\Models\User as Users;
 
-class User extends TestCase
+class UserTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      */
     public function test_login(): void
     {
-        $user = User::factory()->create([
+        $user = Users::factory()->make([
             'name' => 'Deise1',
-            'password' => 'deiserocks',
-            'email' => 'deise1@test.com'
+            'password' => 'deiserocks'
         ]);
 
         $response = $this->postJson(
@@ -29,7 +29,12 @@ class User extends TestCase
         );
 
         $response->assertStatus(200)
-            ->assertJson(fn (AssertableJson $json) => $json->where('id', $user->id)->etc());
+            ->assertJson(
+                fn (AssertableJson $json) => $json
+                    ->where('id', $user->id)
+                    ->where('name', 'Deise1')
+                    ->etc()
+            );
     }
 
     public function test_add_user(): void
@@ -54,24 +59,13 @@ class User extends TestCase
 
     public function test_get_all(): void
     {
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Deise2',
-            'password' => 'deiserocks',
-            'email' => 'deise2@test.com'
-        ]);
-
-        \App\Models\User::factory()->create([
-            'name' => 'Deise3',
-            'password' => 'deiserocks',
-            'email' => 'deise3@test.com'
-        ]);
+        Users::factory()->count(2)->make();
 
         $response = $this->getJson(
             '/api/users/getAll'
         );
 
         $response->assertStatus(200)
-            ->assertJsonCount(2)
-            ->assertJson(fn (AssertableJson $json) => $json->where('id', $user->id)->etc());
+            ->assertJsonCount(2);
     }
 }

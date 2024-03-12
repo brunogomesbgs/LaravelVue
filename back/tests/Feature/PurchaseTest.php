@@ -6,18 +6,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class Purchase extends TestCase
+class PurchaseTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      */
     public function test_make_purchase(): void
     {
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Deise15',
-            'password' => 'deiserocks',
-            'email' => 'deise15@test.com'
-        ]);
+        $user = \App\Models\User::factory()->make();
 
         $response = $this->postJson(
             '/api/purchases/makePurchase',

@@ -9,8 +9,7 @@ const authStore = useAuthStore();
         <div class="navbar-nav">
             <router-link to="/" class="nav-item nav-link">Home</router-link>
             <router-link to="/users" class="nav-item nav-link">Users</router-link>
-            <router-link to="/deposits/makeDeposit" class="nav-item nav-link">Deposits</router-link>
-            <router-link to="/purchases" class="btn btn-link">Make Purchase</router-link>
+            <router-link to="/urls/list" class="nav-item nav-link">Urls</router-link>
             <button @click="authStore.logout()" class="btn btn-link nav-item nav-link">Logout</button>
         </div>
     </nav>

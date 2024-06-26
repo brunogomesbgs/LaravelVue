@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Url;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Purchase>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Link>
  */
-class PurchaseFactory extends Factory
+class LinkFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +19,9 @@ class PurchaseFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory()->create(),
-            'value' => 10,
-            'description' => fake()->name()
+            'url_id' => Url::factory()->create()->id,
+            'link' => $this->faker->url(),
+            'name' => $this->faker->name(),
         ];
     }
 }

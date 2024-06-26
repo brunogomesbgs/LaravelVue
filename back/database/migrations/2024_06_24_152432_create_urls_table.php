@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('deposits', function (Blueprint $table) {
+        Schema::create('urls', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->unique()->constrained();
-            $table->double('current_deposit', 8, 2);
-            $table->double('transit_deposit', 8, 2);
-            $table->boolean('status');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->string('url');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('deposits');
+        Schema::dropIfExists('urls');
     }
 };

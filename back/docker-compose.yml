@@ -20,6 +20,7 @@ services:
     networks:
       - app-network
 
+  #Vue3 Service
   front:
     stdin_open: true
     container_name: front
@@ -60,7 +61,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_HOST: "%"
-      MYSQL_DATABASE: mysql_local, mysql_local_test
+      MYSQL_DATABASE: mysql_local
       MYSQL_ROOT_PASSWORD: bruno
       MYSQL_USER: laravel
       MYSQL_PASSWORD: laravel

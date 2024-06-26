@@ -11,8 +11,6 @@ const { user } = storeToRefs(authStore);
     <div v-if="user">
         <h1>Hi {{ user[0].name }}!</h1>
         <p>You can interact by navigating within the upper navigation tabs! Enjoy!</p>
-        <div v-if="user[0].isAdmin === 1">
-          <router-link to="/deposits/listPendingDeposit" class="nav-item nav-link">List Pending Deposits</router-link>
-        </div>
+      <router-link to="/urls/add" class="btn btn-link">Add an Url</router-link>
     </div>
 </template>
